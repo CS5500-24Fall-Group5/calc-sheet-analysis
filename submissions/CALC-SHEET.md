@@ -13,7 +13,7 @@ Tech Stacks:
 
 This demo uses `window.location.href` to parse URL path and `getDocumentNameFromWindow()` function to dynamically load components/page.
 
-* Simple, but in modern design would much prefer to use **[`React Router`](https://reactrouter.com/en/main)**
+* Simple, but in modern design would much prefer to use **[`React Router`](https://reactrouter.com/en/main)** for more efficient and scalable routing management.
 
 * The default route is the `LoginPageComponent`, which is rendered when the URL is `/documents`, and it navigates users to the appropriate document or page after a successful login.
 
@@ -52,7 +52,7 @@ useEffect(() => {
 
 * Uses React `useState` and `useEffect` at the top level to pass on state down to the components, such as the `documentName`.
 
-* The useEffect hook then watches the documentName as dependencies and updates component/page when documentName gets changed
+* The useEffect hook then watches the `documentName` as dependencies and updates component/page when documentName gets changed
 
 
 ## Backend Analysis
