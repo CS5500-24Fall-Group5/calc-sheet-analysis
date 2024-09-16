@@ -52,7 +52,11 @@ useEffect(() => {
 
 * Uses React `useState` and `useEffect` at the top level to pass on state down to the components, such as the `documentName`.
 
-* The useEffect hook then watches the `documentName` as dependencies and updates component/page when documentName gets changed
+* The `useEffect` hook then watches the `documentName` as dependencies and updates component/page when documentName gets changed
+
+* `LoginPageComponent` receives `spreadSheetClient` as a prop to handle user interactions and backend communication related to authentication and document access.
+
+* `SpreadSheet` component receives `documentName` and `spreadSheetClient` as props to manage the specific document and backend communication.
 
 
 ## Backend Analysis
