@@ -117,9 +117,53 @@ function getUserLogin() {
 
 * **Document Selection**: Once logged in, the user is presented with a list of documents fetched from the spreadSheetClient. Each document has an associated "Edit" button, which triggers the loading of the selected document by updating the URL and reloading the page.
 
+## `SpreadSheet` Analysis
 
+### State Management within SpreadSheet
+
+The SpreadSheet component uses several useState hooks to manage the state of the spreadsheet:
+
+* `formulaString`: Holds the current formula being entered or edited.
+* `resultString`: Holds the result of the formula calculation.
+* `cells`: Stores the display values of the spreadsheet cells.
+* `statusString`: Manages the status of the current editing session (whether editing or not).
+* `currentCell`: Tracks the currently selected cell.
+* `currentlyEditing`: Indicates whether a cell is being edited or not.
+* `userName`: Holds the user’s name, fetched from sessionStorage.
+* `serverSelected`: Allows the user to switch between different servers (default is "localhost").
+
+### Event Handlers
+
+The component contains several event handlers to manage user interactions:
+
+* `onCommandButtonClick`: Handles the logic when command buttons (such as "edit", "clear", etc.) are clicked. It processes the button action and updates the spreadsheet accordingly.
+* `onButtonClick`: Handles the number or parenthesis buttons during formula editing. When a button is clicked, it adds the corresponding value to the formula.
+* `onCellClick`: Manages cell clicks. If the user is currently editing, it adds the cell's value to the formula. Otherwise, it updates the view to show the clicked cell.
+
+### Interaction with `spreadSheetClient`
+
+The spreadSheetClient is heavily utilized throughout the component for managing state and communicating with the backend:
+
+* **Data fetching:** The client fetches the current formula, result, status, and cell values from the backend.
+* **User and document management:** The client manages the user's name and the current document.
+* **Command execution:** The client processes commands like editing, clearing, and token management, ensuring the backend reflects the changes.
+
+### Return to Login Page
+
+The component includes a function, `returnToLoginPage`, that allows the user to return to the login page by updating the URL and reloading the page. This resets the session and allows the user to select a new document.
+
+```typescript
+function returnToLoginPage() {
+  spreadSheetClient.documentName = documentName;
+  const href = window.location.href;
+  const index = href.lastIndexOf('/');
+  let newURL = href.substring(0, index);
+  newURL = newURL + "/documents";
+  window.history.pushState({}, '', newURL);
+  window.location.reload();
+}
+```
 
 ## Backend Analysis
 
 ## Integration Analysis
-
