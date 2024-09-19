@@ -166,7 +166,9 @@ function returnToLoginPage() {
 
 ## `SpreadSheetClient` Class Analysis
 
-The `SpreadSheetClient` class is responsible for facilitating communication between the frontend (React components) and the backend server. It handles all the CRUD operations for the spreadsheet data, manages the document state, and updates the UI based on interactions with the backend.
+* The `SpreadSheetClient` class primarily implements the **`Facade pattern`**, providing a simplified interface for handling complex interactions between the frontend and backend. It abstracts away the details of network requests and document management, allowing React components to interact with the backend through easy-to-use methods.
+
+* It also incorporates elements of the **`Proxy pattern`**, acting as an intermediary that manages communication with the server and document updates. While not explicitly a **`singleton`**, it shares some characteristics by centralizing the management of user and document state through a **single instance**.
 
 ## Backend Analysis
 
