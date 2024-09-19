@@ -115,7 +115,7 @@ function getUserLogin() {
 
 ### Document Management
 
-* **Document Selection**: Once logged in, the user is presented with a list of documents fetched from the spreadSheetClient. Each document has an associated "Edit" button, which triggers the loading of the selected document by updating the URL and reloading the page.
+* **Document Selection**: Once logged in, the user is presented with a list of documents fetched from the `spreadSheetClient`. Each document has an associated "Edit" button, which triggers the loading of the selected document by updating the URL and reloading the page.
 
 ## `SpreadSheet` Analysis
 
@@ -142,7 +142,7 @@ The component contains several event handlers to manage user interactions:
 
 ### Interaction with `spreadSheetClient`
 
-The spreadSheetClient is heavily utilized throughout the component for managing state and communicating with the backend:
+The `spreadSheetClient` is heavily utilized throughout the component for managing state and communicating with the backend:
 
 * **Data fetching:** The client fetches the current formula, result, status, and cell values from the backend.
 * **User and document management:** The client manages the user's name and the current document.
