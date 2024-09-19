@@ -164,6 +164,10 @@ function returnToLoginPage() {
 }
 ```
 
+## `SpreadSheetClient` Class Analysis
+
+The `SpreadSheetClient` class is responsible for facilitating communication between the frontend (React components) and the backend server. It handles all the CRUD operations for the spreadsheet data, manages the document state, and updates the UI based on interactions with the backend.
+
 ## Backend Analysis
 
 ## Integration Analysis
