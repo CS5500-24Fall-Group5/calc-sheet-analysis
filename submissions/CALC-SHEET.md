@@ -43,6 +43,9 @@ function getDocumentNameFromWindow() {
 }
 ```
 
+* `getDocumentNameFromWindow` is a function that extracts the document name from the current URL. It parses the path portion of the URL, finds the document name, and returns it.
+If there is not enough information in the URL (e.g. the path portion is missing), it returns an empty string.
+
 ### State Management
 
 ```typescript
@@ -60,7 +63,8 @@ useEffect(() => {
 
 * `LoginPageComponent` receives `spreadSheetClient` as a prop to handle user interactions and backend communication related to authentication and document access.
 
-* `SpreadSheet` component receives `documentName` and `spreadSheetClient` as props to manage the specific document and backend communication.
+* `SpreadSheet` component receives `documentName` and `spreadSheetClient` as props to manage the specific document and backend communication. Communicate with the spreadsheet server through the `spreadSheetClient` instance and provide an error handling callback function `displayErrorMessage`.
+
 
 ## `LoginPageComponent` Analysis
 
