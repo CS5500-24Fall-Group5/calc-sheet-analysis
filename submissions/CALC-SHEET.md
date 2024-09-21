@@ -46,6 +46,8 @@ function getDocumentNameFromWindow() {
 * `getDocumentNameFromWindow` is a function that extracts the document name from the current URL. It parses the path portion of the URL, finds the document name, and returns it.
 If there is not enough information in the URL (e.g. the path portion is missing), it returns an empty string.
 
+* `resetURL(documentName)` is used to update the browser address bar when the URL changes. It removes the last part of the URL and adds the new document name to the URL. It uses `window.history.pushState`to update the URL and reload the page.
+
 ### State Management
 
 ```typescript
@@ -74,11 +76,11 @@ This component is responsible for handling the actual login process and displayi
 
 * `userName`: Stores the logged-in username, which is initialized from `window.sessionStorage`. This ensures that the username is persisted across page reloads.
 
-* `documents`: An array of document names fetched from the server, stored and displayed to the user.
+* `documents`: An array of document names fetched from the server, stored and displayed to the user. (obtained from the server via `SpreadSheetClient`).
 
 ### Polling Mechanism
 
-* The use of `setInterval` in the useEffect hook is used to poll for available documents from the `spreadSheetClient` every 50 milliseconds. When documents are fetched, they are stored in the documents state.
+* The use of `setInterval` in the useEffect hook is used to poll for available documents from the `spreadSheetClient` every 50 milliseconds. When documents are fetched, they are stored in the documents state. When the component is unmounted, clear the timer to prevent memory leaks by function of `clearInterval(interval)`. This way of checking whether the document is loaded every 50 milliseconds may cause performance issues. You can consider introducing a callback mechanism in `spreadSheetClient` or increase the delay to reduce frequent status checks.
 
 ```typescript
 useEffect(() => {
@@ -95,6 +97,9 @@ useEffect(() => {
 ### Login and Logout
 
 * **Login Mechanism:** The login is handled via an input field where the user enters their name and presses "Enter". The username is stored in `sessionStorage` and the `spreadSheetClient` object is updated with the username.
+
+* The `checkUserName` function checks if userName is empty. If it is empty, a warning message pops up to ask the user to enter the username. But in fact, I didn't see any warning meesage it when testing. Another flaw is that the username is saved only when the user presses the `Enter` key. There is no prompt on the interface to ask to press enter. Better interface interaction with the user is needed. Also, there is currently no error handling mechanism. If `getSheets()` fails, the interface will not feedback error message.
+
 
 * **Logout Mechanism:** When the user logs out, the username is cleared from `sessionStorage` and the page reloads to reset the state.
 
