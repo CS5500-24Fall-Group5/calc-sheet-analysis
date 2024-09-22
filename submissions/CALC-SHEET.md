@@ -181,4 +181,115 @@ function returnToLoginPage() {
 
 ## Backend Analysis
 
+### `DocumentServer.ts` Analysis
+
+This file defines the server-side functionality for managing documents using an Express server. The server provides a range of RESTful endpoints that interact with the `DocumentHolder` class, which manages the spreadsheet documents in memory.
+
+#### Key Functionalities:
+
+1. **Document Management:**
+   - The server manages documents stored in the `DocumentHolder` class. Each document is represented as a `SpreadSheetController` object, allowing multiple users to interact with it concurrently.
+   
+2. **API Routes:**
+   - The server defines several API routes to interact with documents, including:
+     - `GET /documents`: Retrieves the list of available documents.
+     - `PUT /documents/:name`: Creates or fetches a specific document based on the name provided.
+     - `PUT /document/cell/edit/:name`: Requests edit access to a specific cell within a document.
+     - `PUT /document/addtoken/:name`: Adds a token to the formula of the current cell.
+     - `PUT /document/removetoken/:name`: Removes the last token from the formula of the current cell.
+     - `PUT /document/clear/formula/:name`: Clears the current formula of the selected cell.
+
+3. **Error Handling:**
+   - Each route includes basic error handling to ensure requests are correctly processed. For example, if a document does not exist, a 404 response is returned.
+
+4. **Logging and Debugging:**
+   - The server includes debug logging, which can be toggled on or off to help developers trace the flow of requests and identify potential issues during development.
+
+### `DocumentHolder.ts` Analysis
+
+`DocumentHolder` manages the collection of documents (`SpreadSheetController` instances). It handles the creation, modification, and retrieval of spreadsheet documents.
+
+#### Key Functionalities:
+
+1. **Document Storage:**
+   - Documents are stored in a Map data structure, providing quick access and efficient management of multiple spreadsheets.
+
+2. **Document Operations:**
+   - The class provides methods to create new documents, save documents to the file system, and load documents from existing JSON data.
+
+3. **Concurrency Control:**
+   - It includes mechanisms to manage edit and view access requests from multiple users, ensuring data consistency and preventing conflicts.
+
+4. **Error Management:**
+   - The class includes robust error handling to manage invalid operations, such as accessing non-existent documents or circular dependencies between cells.
+
+### `SpreadSheetController.ts` Analysis
+
+The `SpreadSheetController` class is the core logic for managing spreadsheet operations. It handles interactions with the `SheetMemory`, which stores the state of each spreadsheet.
+
+#### Key Functionalities:
+
+1. **Cell Operations:**
+   - The class manages adding, removing, and editing tokens within a cell's formula. It uses a `FormulaEvaluator` to compute the results of these formulas dynamically.
+
+2. **Concurrency Handling:**
+   - The controller manages multiple users editing and viewing cells, ensuring that only one user can edit a cell at any given time.
+
+3. **Error Checking:**
+   - It includes error checking for common issues such as circular dependencies, divide-by-zero errors, and invalid formulas.
+
+### `FormulaEvaluator.ts` Analysis
+
+`FormulaEvaluator` is responsible for parsing and evaluating cell formulas. It implements a recursive descent parser to handle arithmetic operations, unary and postfix operators, and cell references.
+
+#### Key Functionalities:
+
+1. **Arithmetic Parsing:**
+   - The class supports parsing of basic arithmetic operations (`+`, `-`, `*`, `/`), unary operators (negative values), and various mathematical functions (e.g., `sin`, `cos`).
+
+2. **Error Management:**
+   - Errors such as invalid formulas, divide-by-zero, and missing parentheses are identified and returned as part of the evaluation process.
+
+3. **Integration with Sheet Memory:**
+   - The evaluator fetches values directly from the `SheetMemory` class, ensuring that all calculations are based on the latest state of the spreadsheet.
+
 ## Integration Analysis
+
+### Frontend-Backend Interaction
+
+The Calc-Sheet project integrates the frontend and backend through a RESTful API, facilitating the seamless exchange of data and operations between the user interface and server-side logic.
+
+#### Key Integration Points:
+
+1. **Document Management:**
+   - The frontend uses the `SpreadSheetClient` class to communicate with backend endpoints, such as fetching document data, editing cells, and updating formulas.
+
+2. **Real-time Updates:**
+   - The polling mechanism in `LoginPageComponent` ensures that the list of available documents is kept up-to-date in near real-time, enhancing user experience.
+
+3. **Concurrency Control:**
+   - The backend handles concurrent access and editing requests, ensuring data integrity and preventing conflicts during collaborative editing sessions.
+
+4. **Error Handling:**
+   - Errors encountered during operations (e.g., invalid formulas, circular dependencies) are communicated back to the frontend and displayed to the user, enabling corrective actions.
+
+### Recommended Improvements
+
+1. **Routing Optimization:**
+   - Replace the manual URL parsing in `App.tsx` with a robust routing library like `React Router` for better routing management.
+
+2. **State Management Enhancement:**
+   - Consider integrating a state management solution like `Redux` or `Context API` to manage global state more effectively, particularly as the application scales.
+
+3. **Improved Error Feedback:**
+   - Enhance the user feedback mechanism for errors, moving from simple alerts to more informative and user-friendly UI notifications.
+
+4. **Performance Optimization:**
+   - Optimize backend performance by reducing the frequency of polling intervals or implementing WebSockets for real-time updates.
+
+5. **Security Enhancements:**
+   - Implement authentication and authorization mechanisms to secure document access and ensure that only authorized users can edit or view specific cells.
+
+## Conclusion
+
+The Calc-Sheet project effectively combines React and Express to create a collaborative spreadsheet editing experience. The design showcases solid use of design patterns, concurrency management, and real-time user interaction. With some enhancements to routing, state management, and security, the project can be further improved to provide a robust and scalable solution.
